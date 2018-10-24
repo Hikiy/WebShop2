@@ -11,8 +11,6 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
-
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
 
@@ -37,22 +35,22 @@ public class ImageUtil {
 	 *            存放路径
 	 * @return
 	 */
-	public static void generateThumbnail(CommonsMultipartFile thumbnail, String targetAddr) {
+	public static String generateThumbnail(File thumbnail, String targetAddr) {
 		String realFileName = getRandomFileName();
 		String extension = getFileExtension(thumbnail);
 		makeDirPath(targetAddr);
 		String relativeAddr = targetAddr + realFileName + extension;
 		File dest = new File(PathUtil.getImgBasePath() + relativeAddr);
 		try {
-			Thumbnails.of(thumbnail.getInputStream()).size(200, 200)
-					.watermark(Positions.BOTTOM_RIGHT, ImageIO.read(new File(basePath + "/watermark1.jpg")), 0.25f)
+			Thumbnails.of(thumbnail).size(200, 200)
+					.watermark(Positions.BOTTOM_RIGHT, ImageIO.read(new File(basePath + "/Watermark_slim.png")), 0.25f)
 					.outputQuality(0.8f).toFile(dest);
 			;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return relativeAddr;
 	}
-	
 
 	/**
 	 * 创建目标路径所涉及到的目录
@@ -71,11 +69,11 @@ public class ImageUtil {
 	/**
 	 * 获取输入文件流的扩展名
 	 * 
-	 * @param cFile
+	 * @param thumbnail
 	 * @return
 	 */
-	private static String getFileExtension(CommonsMultipartFile cFile) {
-		String originalFileName = cFile.getOriginalFilename();
+	private static String getFileExtension(File thumbnail) {
+		String originalFileName = thumbnail.getName();
 		return originalFileName.substring(originalFileName.lastIndexOf("."));
 	}
 
@@ -96,7 +94,7 @@ public class ImageUtil {
 	 */
 	public static void main(String[] args) throws IOException {
 		Thumbnails.of("E:/java/WebShop/test/picture/zhangyuge.jpg").size(200, 200)
-				.watermark(Positions.BOTTOM_RIGHT, ImageIO.read(new File(basePath + "/watermark1.jpg")), 0.25f)
+				.watermark(Positions.BOTTOM_RIGHT, ImageIO.read(new File(basePath + "/Watermark_slim.png")), 0.75f)
 				.outputQuality(0.8f).toFile("E:/java/WebShop/test/picture/zhangyugenew.jpg");
 		;
 

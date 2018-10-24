@@ -9,7 +9,7 @@ package hiki.o2o.util;
  */
 public class PathUtil {
 	// 获取文件分隔符
-	private static String seperator = System.getProperty("file.seperator");
+	private static String separator = System.getProperty("file.separator");
 
 	/**
 	 * 获取项目图片根路径
@@ -23,9 +23,9 @@ public class PathUtil {
 		if (os.toLowerCase().startsWith("win")) {
 			basePath = "E:/java/WebShop/WebShopImg/";
 		} else {
-			basePath = "home/hiki/WebShop/WebShopImg";
+			basePath = "/home/hiki/WebShop/WebShopImg/";
 		}
-		basePath = basePath.replace("/", seperator);
+		basePath = basePath.replace("/", separator);
 		return basePath;
 	}
 
@@ -36,7 +36,7 @@ public class PathUtil {
 	 * @return
 	 */
 	public static String getShopImagePath(long shopId) {
-		String imagePath = "/upload/item/shop/" + shopId + "/";
-		return imagePath.replace("/", seperator);
+		String imagePath = "upload/item/shop/" + shopId + "/";
+		return imagePath.replace("/", separator);
 	}
 }
