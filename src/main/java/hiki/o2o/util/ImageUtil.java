@@ -5,6 +5,7 @@ package hiki.o2o.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
@@ -29,20 +30,20 @@ public class ImageUtil {
 	/**
 	 * 生成缩略图
 	 * 
-	 * @param thumbnail
+	 * @param thumbnailInputStream
 	 *            原图
 	 * @param targetAddr
 	 *            存放路径
 	 * @return
 	 */
-	public static String generateThumbnail(File thumbnail, String targetAddr) {
+	public static String generateThumbnail(InputStream thumbnailInputStream, String fileName, String targetAddr) {
 		String realFileName = getRandomFileName();
-		String extension = getFileExtension(thumbnail);
+		String extension = getFileExtension(fileName);
 		makeDirPath(targetAddr);
 		String relativeAddr = targetAddr + realFileName + extension;
 		File dest = new File(PathUtil.getImgBasePath() + relativeAddr);
 		try {
-			Thumbnails.of(thumbnail).size(200, 200)
+			Thumbnails.of(thumbnailInputStream).size(200, 200)
 					.watermark(Positions.BOTTOM_RIGHT, ImageIO.read(new File(basePath + "/Watermark_slim.png")), 0.25f)
 					.outputQuality(0.8f).toFile(dest);
 			;
@@ -72,9 +73,8 @@ public class ImageUtil {
 	 * @param thumbnail
 	 * @return
 	 */
-	private static String getFileExtension(File thumbnail) {
-		String originalFileName = thumbnail.getName();
-		return originalFileName.substring(originalFileName.lastIndexOf("."));
+	private static String getFileExtension(String fileName) {
+		return fileName.substring(fileName.lastIndexOf("."));
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class ImageUtil {
 	 * 
 	 * @return 随机文件名
 	 */
-	private static String getRandomFileName() {
+	public static String getRandomFileName() {
 		// 生成五位随机数10000~99999
 		int rannum = r.nextInt(89999) + 10000;
 		String nowTimeStr = sDateFormat.format(new Date());

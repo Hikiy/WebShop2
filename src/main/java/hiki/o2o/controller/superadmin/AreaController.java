@@ -1,7 +1,7 @@
 /**
  * 
  */
-package hiki.o2o.controller;
+package hiki.o2o.controller.superadmin;
 
 import java.util.ArrayList;
 import java.util.HashMap;
