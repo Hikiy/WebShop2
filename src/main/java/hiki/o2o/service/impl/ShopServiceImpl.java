@@ -3,7 +3,6 @@
  */
 package hiki.o2o.service.impl;
 
-import java.io.File;
 import java.io.InputStream;
 import java.util.Date;
 
