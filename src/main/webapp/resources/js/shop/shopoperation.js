@@ -3,11 +3,9 @@
  */
 $(function() {
 	// 从后台获取店铺的基本信息（区域信息、店铺分类信息)，填充到两个控件：shop-category area
-	var initUrl = 'o2o/shop/getshopinitinfo'
-	var registerShopUrl = 'o2o/shopadmin/registershop';
-	alert(initUrl);
+	var initUrl = '/o2o/shopadmin/getshopinitinfo';
+	var registerShopUrl = '/o2o/shopadmin/registershop';
 	getShopInitInfo();
-	
 	function getShopInitInfo() {
 		// 第一个参数是访问的url，第二个是回调的方法
 		$.getJSON(initUrl, function(data) {
@@ -15,7 +13,7 @@ $(function() {
 				var tempHtml = '';
 				var tempAreaHtml = '';
 				// 遍历列表，保存option内容
-				data.shopCategotyList.map(function(item, index) {
+				data.shopCategoryList.map(function(item, index) {
 					tempHtml += '<option data-id="' + item.shopCategoryId
 							+ '">' + item.shopCategoryName + '</option>';
 				});

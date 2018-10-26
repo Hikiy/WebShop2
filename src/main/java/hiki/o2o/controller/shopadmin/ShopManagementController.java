@@ -4,7 +4,9 @@
 package hiki.o2o.controller.shopadmin;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,10 +23,14 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import hiki.o2o.dto.ShopExecution;
+import hiki.o2o.entity.Area;
 import hiki.o2o.entity.PersonInfo;
 import hiki.o2o.entity.Shop;
+import hiki.o2o.entity.ShopCategory;
 import hiki.o2o.enums.ShopStateEnum;
 import hiki.o2o.exception.ShopOperationException;
+import hiki.o2o.service.AreaService;
+import hiki.o2o.service.ShopCategoryService;
 import hiki.o2o.service.ShopService;
 import hiki.o2o.util.HttpServletRequestUtil;
 
@@ -37,6 +43,29 @@ import hiki.o2o.util.HttpServletRequestUtil;
 public class ShopManagementController {
 	@Autowired
 	private ShopService shopService;
+	@Autowired
+	private ShopCategoryService shopCategoryService;
+	@Autowired
+	private AreaService areaService;
+
+	@RequestMapping(value = "/getshopinitinfo", method = RequestMethod.GET)
+	@ResponseBody
+	private Map<String, Object> getShopInitInfo() {
+		Map<String, Object> modelMap = new HashMap<String, Object>();
+		List<ShopCategory> shopCategoryList = new ArrayList<ShopCategory>();
+		List<Area> areaList = new ArrayList<Area>();
+		try {
+			shopCategoryList = shopCategoryService.getShopCategoryList(new ShopCategory());
+			areaList = areaService.getAreaList();
+			modelMap.put("shopCategoryList", shopCategoryList);
+			modelMap.put("areaList", areaList);
+			modelMap.put("success", true);
+		} catch (Exception e) {
+			modelMap.put("success", false);
+			modelMap.put("errorMsg", e.getMessage());
+		}
+		return modelMap;
+	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	@ResponseBody
