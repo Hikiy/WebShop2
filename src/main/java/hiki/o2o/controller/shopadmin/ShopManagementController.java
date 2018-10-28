@@ -32,6 +32,7 @@ import hiki.o2o.exception.ShopOperationException;
 import hiki.o2o.service.AreaService;
 import hiki.o2o.service.ShopCategoryService;
 import hiki.o2o.service.ShopService;
+import hiki.o2o.util.CodeUtil;
 import hiki.o2o.util.HttpServletRequestUtil;
 
 /**
@@ -67,14 +68,19 @@ public class ShopManagementController {
 		return modelMap;
 	}
 
-	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	@RequestMapping(value = "/registershop", method = RequestMethod.POST)
 	@ResponseBody
 	private Map<String, Object> registerShop(HttpServletRequest request) {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
+		if (!CodeUtil.checkVerifyCode(request)) {
+			modelMap.put("success", false);
+			modelMap.put("errorMsg", "输入了错误的验证码");
+			return modelMap;
+		}
 		// 1.接受并转换相应的参数，包括店铺信息以及图片信息
 		String shopStr = HttpServletRequestUtil.getString(request, "shopStr");
 		ObjectMapper mapper = new ObjectMapper();
-		Shop shop = new Shop();
+		Shop shop = null;
 		try {
 			shop = mapper.readValue(shopStr, Shop.class);
 		} catch (Exception e) {
@@ -100,6 +106,7 @@ public class ShopManagementController {
 			// 后期这里改成用session获取
 			owner.setUserId(1L);
 			shop.setOwner(owner);
+			shop.setAdvice("审核中");
 			ShopExecution se;
 			try {
 				se = shopService.addShop(shop, shopImg.getInputStream(), shopImg.getOriginalFilename());

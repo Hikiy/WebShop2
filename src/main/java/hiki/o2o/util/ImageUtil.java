@@ -44,7 +44,7 @@ public class ImageUtil {
 		File dest = new File(PathUtil.getImgBasePath() + relativeAddr);
 		try {
 			Thumbnails.of(thumbnailInputStream).size(200, 200)
-					.watermark(Positions.BOTTOM_RIGHT, ImageIO.read(new File(basePath + "/Watermark_slim.png")), 0.25f)
+					.watermark(Positions.BOTTOM_RIGHT, ImageIO.read(new File(basePath + "/Watermark_slim.png")), 0.75f)
 					.outputQuality(0.8f).toFile(dest);
 			;
 		} catch (IOException e) {
