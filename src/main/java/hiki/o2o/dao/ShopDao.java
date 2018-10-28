@@ -17,6 +17,13 @@ public interface ShopDao {
 	 * @return 1插入一条，-1插入失败
 	 */
 	int insertShop(Shop shop);
+	
+	/**
+	 * 通过shopId查询店铺
+	 * @param shopId
+	 * @return
+	 */
+	Shop queryByShopId(long shopId);
 
 	/**
 	 * 更新店铺信息

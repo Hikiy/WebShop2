@@ -3,6 +3,35 @@
     PUBLIC "-//mybatis.org//DTD//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="hiki.o2o.dao.ShopDao">
+	<resultMap type="hiki.o2o.entity.Shop" id="ShopMap">
+		<id column="shop_id" property="shopId"></id>
+		<result column="shop_name" property="shopName"></result>
+		<result column="shop_desc" property="shopDesc"></result>
+		<result column="shop_addr" property="shopAddr"></result>
+		<result column="phone" property="phone"></result>
+		<result column="shop_img" property="shopImg"></result>
+		<result column="priority" property="priority"></result>
+		<result column="create_time" property="createTime"></result>
+		<result column="last_edit_time" property="lastEditTime"></result>
+		<result column="enable_status" property="enableStatus"></result>
+		<result column="advice" property="advice"></result>
+		<!-- 复合类型，property就是填Shop中的成员变量名，column就是用来连接的 -->
+		<association property="area" column="area_id" javaType="hiki.o2o.entity.Area">
+			<id column="area_id" property="areaId" />
+			<result column="area_name" property="areaName" />
+		</association>
+		<association property="shopCategory" column="shop_category_id"
+			javaType="hiki.o2o.entity.ShopCategory">
+			<id column="shop_category_id" property="shopCategoryId" />
+			<result column="shop_category_name" property="shopCategoryName" />
+		</association>
+		<association property="owner" column="user_id"
+			javaType="hiki.o2o.entity.PersonInfo">
+			<id column="user_id" property="userId" />
+			<result column="name" property="name" />
+		</association>
+	</resultMap>
+
 	<insert id="insertShop" useGeneratedKeys="true" keyColumn="shop_id"
 		keyProperty="shopId">
 		insert into
