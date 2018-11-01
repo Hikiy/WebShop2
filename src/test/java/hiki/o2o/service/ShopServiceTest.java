@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Date;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -31,6 +32,18 @@ public class ShopServiceTest extends BaseTest {
 	private ShopService shopService;
 
 	@Test
+	public void testModifyShop() throws FileNotFoundException {
+		Shop shop = new Shop();
+		shop.setShopId(2L);
+		shop.setShopName("修改后的名称");
+		File shopImg = new File("E:/java/WebShop/test/picture/zhangyuge.jpg");
+		InputStream is = new FileInputStream(shopImg);
+		ShopExecution shopExecution = shopService.modifyShop(shop, is, "zhangyuge.jpg");
+		System.out.println(shopExecution.getShop().getShopImg());
+	}
+
+	@Test
+	@Ignore
 	public void testAddShop() throws FileNotFoundException {
 		Shop shop = new Shop();
 		PersonInfo owner = new PersonInfo();

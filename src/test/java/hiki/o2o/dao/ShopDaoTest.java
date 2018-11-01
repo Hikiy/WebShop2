@@ -21,17 +21,25 @@ import hiki.o2o.entity.ShopCategory;
  * @Hiki msi
  *
  */
-public class ShopDaoTest extends BaseTest{
+public class ShopDaoTest extends BaseTest {
 	@Autowired
 	private ShopDao shopDao;
-	
+
+	@Test
+	public void testqueryByShopId() {
+		long shopId = 2;
+		Shop shop = shopDao.queryByShopId(shopId);
+		System.out.println("area_name=" + shop.getArea().getAreaName());
+		System.out.println("area_id=" + shop.getArea().getAreaId());
+	}
+
 	@Test
 	@Ignore
-	public void testInsertShop(){
-		Shop shop=new Shop();
-		PersonInfo owner=new PersonInfo();
-		ShopCategory shopCategory=new ShopCategory();
-		Area area=new Area();
+	public void testInsertShop() {
+		Shop shop = new Shop();
+		PersonInfo owner = new PersonInfo();
+		ShopCategory shopCategory = new ShopCategory();
+		Area area = new Area();
 		owner.setUserId(1L);
 		shopCategory.setShopCategoryId(1L);
 		area.setAreaId(1);
@@ -46,17 +54,19 @@ public class ShopDaoTest extends BaseTest{
 		shop.setCreateTime(new Date());
 		shop.setEnableStatus(1);
 		shop.setAdvice("审核中");
-		int effectedNum=shopDao.insertShop(shop);
-		assertEquals(1,effectedNum);
+		int effectedNum = shopDao.insertShop(shop);
+		assertEquals(1, effectedNum);
 	}
+
 	@Test
-	public void testUpdateShop(){
-		Shop shop=new Shop();
+	@Ignore
+	public void testUpdateShop() {
+		Shop shop = new Shop();
 		shop.setShopId(2L);
 		shop.setShopDesc("测试描述");
 		shop.setShopAddr("测试地址");
 		shop.setLastEditTime(new Date());
-		int effectedNum=shopDao.updateShop(shop);
-		assertEquals(1,effectedNum);
+		int effectedNum = shopDao.updateShop(shop);
+		assertEquals(1, effectedNum);
 	}
 }
