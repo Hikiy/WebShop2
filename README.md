@@ -5,8 +5,9 @@
 (由于项目重启过，所以本更新日志前面有部分并不存在于github的commit记录)<br><br>
 
 **2018.11.1** <br>
-实现店铺信息编辑的Dao层和Service层，ImageUtil工具类添加删除图片功能。完成单元测试
-<br><br>
+实现店铺信息编辑的Dao层和Service层，ImageUtil工具类添加删除图片功能。完成单元测试<br>
+实现店铺信息编辑的Controller层,完善店铺注册Controller层（使用session获取用户信息）<br>
+<br>
 
 **2018.10.28** <br>
 修复上次更新的Controller层店铺注册功能bug，添加验证码功能。<br>
