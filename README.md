@@ -7,6 +7,7 @@
 **2018.11.1** <br>
 实现店铺信息编辑的Dao层和Service层，ImageUtil工具类添加删除图片功能。完成单元测试<br>
 实现店铺信息编辑的Controller层,完善店铺注册Controller层（使用session获取用户信息）<br>
+实现店铺信息编辑的前端js，初步完成功能<br>
 <br>
 
 **2018.10.28** <br>
