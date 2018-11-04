@@ -15,6 +15,15 @@ import hiki.o2o.exception.ShopOperationException;
  */
 public interface ShopService {
 	/**
+	 * 根据shopCondition分页返回店铺列表
+	 * @param shopCondition
+	 * @param pageIndex
+	 * @param pageSize
+	 * @return
+	 */
+	public ShopExecution getShopList(Shop shopCondition,int pageIndex,int pageSize);
+	
+	/**
 	 * 注册店铺，包括图片处理
 	 * @param shop
 	 * @param shopImgInputStream
