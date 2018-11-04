@@ -125,6 +125,7 @@ public class ShopManagementController {
 		}
 		// 2.注册店铺
 		if (shop != null && shopImg != null) {
+			//此处的user还没实现
 			PersonInfo owner = (PersonInfo) request.getSession().getAttribute("user");
 			shop.setOwner(owner);
 			shop.setAdvice("审核中");
