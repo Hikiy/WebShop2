@@ -59,8 +59,8 @@ public class ShopManagementController {
 			// 如果违规操作，不能访问此页面，则重定向
 			if (currentShopObj == null) {
 				modelMap.put("redirect", true);
-				modelMap.put("url", "/o2o/shop/shoplist");
-			}
+				modelMap.put("url", "/o2o/shopadmin/shoplist");
+			} 
 			// 如果登录过
 			else {
 				Shop currentShop = (Shop) currentShopObj;
