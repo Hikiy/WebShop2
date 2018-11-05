@@ -49,6 +49,57 @@ public class ShopManagementController {
 	@Autowired
 	private AreaService areaService;
 
+	@RequestMapping(value = "/getshopmanagementinfo", method = RequestMethod.GET)
+	@ResponseBody
+	private Map<String, Object> getShopManagementInfo(HttpServletRequest request) {
+		Map<String, Object> modelMap = new HashMap<String, Object>();
+		Long shopId = HttpServletRequestUtil.getLong(request, "shopId");
+		if (shopId <= 0) {
+			Object currentShopObj = request.getSession().getAttribute("currentShop");
+			// 如果违规操作，不能访问此页面，则重定向
+			if (currentShopObj == null) {
+				modelMap.put("redirect", true);
+				modelMap.put("url", "/o2o/shop/shoplist");
+			}
+			// 如果登录过
+			else {
+				Shop currentShop = (Shop) currentShopObj;
+				modelMap.put("redirect", false);
+				modelMap.put("shopId", currentShop.getShopId());
+			}
+		} else {
+			Shop currentShop = new Shop();
+			currentShop.setShopId(shopId);
+			request.getSession().setAttribute("currentShop", currentShop);
+			modelMap.put("redirect", false);
+		}
+		return modelMap;
+	}
+
+	@RequestMapping(value = "/getshoplist", method = RequestMethod.GET)
+	@ResponseBody
+	private Map<String, Object> getShopList(HttpServletRequest request) {
+		Map<String, Object> modelMap = new HashMap<String, Object>();
+		// 模拟了用户信息
+		PersonInfo user = new PersonInfo();
+		user.setUserId(1L);
+		user.setName("test");
+		request.getSession().setAttribute("user", user);
+		user = (PersonInfo) request.getSession().getAttribute("user");
+		try {
+			Shop shopCondition = new Shop();
+			shopCondition.setOwner(user);
+			ShopExecution se = shopService.getShopList(shopCondition, 0, 100);
+			modelMap.put("shopList", se.getShopList());
+			modelMap.put("user", user);
+			modelMap.put("success", true);
+		} catch (Exception e) {
+			modelMap.put("success", false);
+			modelMap.put("errMsg", e.getMessage());
+		}
+		return modelMap;
+	}
+
 	@RequestMapping(value = "/getshopbyid", method = RequestMethod.GET)
 	@ResponseBody
 	private Map<String, Object> getShopById(HttpServletRequest request) {
@@ -125,7 +176,7 @@ public class ShopManagementController {
 		}
 		// 2.注册店铺
 		if (shop != null && shopImg != null) {
-			//此处的user还没实现
+			// 此处的user还没实现
 			PersonInfo owner = (PersonInfo) request.getSession().getAttribute("user");
 			shop.setOwner(owner);
 			shop.setAdvice("审核中");
