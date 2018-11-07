@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE xml>
 <configuration debug="false">
 	<appender name="INFO-FILE"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">

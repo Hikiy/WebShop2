@@ -5,7 +5,8 @@
 (由于项目重启过，所以本更新日志前面有部分并不存在于github的commit记录)<br><br>
 
 **2018.11.7** <br>
-编写商品类别Controller层,编写商品类别html、js、css文件，进行测试成功实现商品类别查询功能<br>
+编写商品类别查询Controller层,编写商品类别html、js、css文件，进行测试成功实现商品类别查询功能<br>
+编写批量增加商品类别的Dao层、Service层、Controller层代码。单元测试完毕<br>
 <br>
 
 **2018.11.5** <br>
