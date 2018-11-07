@@ -21,6 +21,7 @@ import hiki.o2o.dto.Result;
 import hiki.o2o.entity.ProductCategory;
 import hiki.o2o.entity.Shop;
 import hiki.o2o.enums.ProductCategoryStateEnum;
+import hiki.o2o.exception.ProductCategoryOperationException;
 import hiki.o2o.service.ProductCategoryService;
 
 /**
@@ -74,6 +75,33 @@ public class ProductCategoryManagementController {
 		} else {
 			modelMap.put("success", false);
 			modelMap.put("errMsg", "请至少输入一个商品类别");
+		}
+		return modelMap;
+	}
+
+	@RequestMapping(value = "/removeproductcategorys", method = RequestMethod.POST)
+	@ResponseBody
+	private Map<String, Object> removeProductCategory(Long productCategoryId, HttpServletRequest request) {
+		Map<String, Object> modelMap = new HashMap<String, Object>();
+		if (productCategoryId != null && productCategoryId > 0) {
+			try {
+				Shop currentShop = (Shop) request.getSession().getAttribute("currentShop");
+				ProductCategoryExecution pe = productCategoryService.deleteProductCategory(productCategoryId,
+						currentShop.getShopId());
+				if (pe.getState() == ProductCategoryStateEnum.SUCCESS.getState()) {
+					modelMap.put("success", true);
+				} else {
+					modelMap.put("success", false);
+					modelMap.put("errMsg", pe.getStateInfo());
+				}
+			} catch (ProductCategoryOperationException e) {
+				modelMap.put("success", false);
+				modelMap.put("errMsg", e.toString());
+				return modelMap;
+			}
+		} else {
+			modelMap.put("success", false);
+			modelMap.put("errMsg", "请选择要删除的商品类别");
 		}
 		return modelMap;
 	}

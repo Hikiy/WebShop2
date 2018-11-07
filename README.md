@@ -10,7 +10,8 @@
 编写批量增加商品类别的html、js文件，修复小bug，新增商品类别测试成功<br>
 PS：本次bug为js中的一个字符串打错<br>
 编写删除商品类别Dao层，并进行单元测试，修复bug<br>
-PS：要记住String用.equal()判断相等
+PS：要记住String用.equal()判断相等<br>
+编写完成删除商品类别Service层和Controller层<br>
 <br>
 
 **2018.11.5** <br>
