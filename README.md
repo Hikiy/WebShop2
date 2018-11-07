@@ -7,6 +7,8 @@
 **2018.11.7** <br>
 编写商品类别查询Controller层,编写商品类别html、js、css文件，进行测试成功实现商品类别查询功能<br>
 编写批量增加商品类别的Dao层、Service层、Controller层代码。单元测试完毕<br>
+编写批量增加商品类别的html、js文件，修复小bug，新增商品类别测试成功<br>
+PS：本次bug为js中的一个字符串打错<br>
 <br>
 
 **2018.11.5** <br>
