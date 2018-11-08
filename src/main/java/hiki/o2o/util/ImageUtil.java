@@ -5,13 +5,13 @@ package hiki.o2o.util;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
 
+import hiki.o2o.dto.ImageHolder;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
 
@@ -26,7 +26,7 @@ public class ImageUtil {
 	private static final SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 	// 用于生成随机数
 	private static final Random r = new Random();
-
+	
 	/**
 	 * 生成缩略图
 	 * 
@@ -36,20 +36,51 @@ public class ImageUtil {
 	 *            存放路径
 	 * @return
 	 */
-	public static String generateThumbnail(InputStream thumbnailInputStream, String fileName, String targetAddr) {
+	public static String generateThumbnail(ImageHolder thumbnail, String targetAddr) {
+		//生成随机文件名
 		String realFileName = getRandomFileName();
-		String extension = getFileExtension(fileName);
+		//获取文件扩展名
+		String extension = getFileExtension(thumbnail.getImageName());
+		//如果目标路径不存在则自动创建
 		makeDirPath(targetAddr);
+		//获取文件存储的相对路经（带文件名）
 		String relativeAddr = targetAddr + realFileName + extension;
-		File dest = new File(PathUtil.getImgBasePath() + relativeAddr);
+		//获取保存的目标路径
+		File dest = new File(PathUtil.getImgBasePath() + relativeAddr);	
+		//调用工具类Thumbnails生成带有自制水印的图片
 		try {
-			Thumbnails.of(thumbnailInputStream).size(200, 200)
+			Thumbnails.of(thumbnail.getImage()).size(200, 200)
 					.watermark(Positions.BOTTOM_RIGHT, ImageIO.read(new File(basePath + "/Watermark_slim.png")), 0.75f)
 					.outputQuality(0.8f).toFile(dest);
 			;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		//返回图片相对路径
+		return relativeAddr;
+	}
+	
+	public static String generateNormalImg(ImageHolder thumbnail, String targetAddr) {
+		//生成随机文件名
+		String realFileName = getRandomFileName();
+		//获取文件扩展名
+		String extension = getFileExtension(thumbnail.getImageName());
+		//如果目标路径不存在则自动创建
+		makeDirPath(targetAddr);
+		//获取文件存储的相对路经（带文件名）
+		String relativeAddr = targetAddr + realFileName + extension;
+		//获取保存的目标路径
+		File dest = new File(PathUtil.getImgBasePath() + relativeAddr);	
+		//调用工具类Thumbnails生成带有自制水印的图片
+		try {
+			Thumbnails.of(thumbnail.getImage()).size(337, 640)
+					.watermark(Positions.BOTTOM_RIGHT, ImageIO.read(new File(basePath + "/Watermark_slim.png")), 0.75f)
+					.outputQuality(0.9f).toFile(dest);
+			;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		//返回图片相对路径
 		return relativeAddr;
 	}
 

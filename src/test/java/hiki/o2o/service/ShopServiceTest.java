@@ -16,6 +16,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import hiki.o2o.BaseTest;
+import hiki.o2o.dto.ImageHolder;
 import hiki.o2o.dto.ShopExecution;
 import hiki.o2o.entity.Area;
 import hiki.o2o.entity.PersonInfo;
@@ -32,6 +33,7 @@ public class ShopServiceTest extends BaseTest {
 	private ShopService shopService;
 
 	@Test
+	@Ignore
 	public void testGetShopList(){
 		Shop shopCondition=new Shop();
 		ShopCategory shopCategory=new ShopCategory();
@@ -50,7 +52,8 @@ public class ShopServiceTest extends BaseTest {
 		shop.setShopName("修改后的名称");
 		File shopImg = new File("E:/java/WebShop/test/picture/zhangyuge.jpg");
 		InputStream is = new FileInputStream(shopImg);
-		ShopExecution shopExecution = shopService.modifyShop(shop, is, "zhangyuge.jpg");
+		ImageHolder imageHolder=new ImageHolder("zhangyuge.jpg", is);
+		ShopExecution shopExecution = shopService.modifyShop(shop, imageHolder);
 		System.out.println(shopExecution.getShop().getShopImg());
 	}
 
@@ -76,7 +79,8 @@ public class ShopServiceTest extends BaseTest {
 		shop.setAdvice("审核中");
 		File shopImg = new File("E:/java/WebShop/test/picture/human.jpg");
 		InputStream is = new FileInputStream(shopImg);
-		ShopExecution se = shopService.addShop(shop, is, shopImg.getName());
+		ImageHolder imageHolder=new ImageHolder(shopImg.getName(), is);
+		ShopExecution se = shopService.addShop(shop, imageHolder);
 		assertEquals(ShopStateEnum.CHECK.getState(), se.getState());
 	}
 }
