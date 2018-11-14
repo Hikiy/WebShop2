@@ -6,6 +6,8 @@
 
 **2018.11.14** <br>
 完成商品插入、商品图片插入的Controller层<br>
+完成商品新建的前端HTML和JS并进行测试和debug，可以成功新建商品<br>
+PS：本次bug是因为图片文件流的getName()方法无法获取到后面的后缀名，导致ImageUtil里方法出现String下标溢出问题(de了2小时bug..)要使用getOriginalFilename()方法才可以<br>
 <br>
 
 **2018.11.8** <br>

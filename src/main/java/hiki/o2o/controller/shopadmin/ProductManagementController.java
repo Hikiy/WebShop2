@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
@@ -43,6 +44,7 @@ public class ProductManagementController {
 	private final int IMAGEMAXCOUNT = 6;
 
 	@RequestMapping(value = "/addproduct", method = RequestMethod.POST)
+	@ResponseBody
 	private Map<String, Object> addProduct(HttpServletRequest request) {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 		// 验证验证码正确性
@@ -71,13 +73,13 @@ public class ProductManagementController {
 				multipartRequest = (MultipartHttpServletRequest) request;
 				// 取缩略图并建立ImageHolder对象
 				CommonsMultipartFile thumbnailFile = (CommonsMultipartFile) multipartRequest.getFile("thumbnail");
-				thumbnail = new ImageHolder(thumbnailFile.getName(), thumbnailFile.getInputStream());
+				thumbnail = new ImageHolder(thumbnailFile.getOriginalFilename(), thumbnailFile.getInputStream());
 				// 取详情图片并添加到List中，最多支持6张图片
 				for (int i = 0; i < IMAGEMAXCOUNT; i++) {
 					CommonsMultipartFile productImgFile = (CommonsMultipartFile) multipartRequest
 							.getFile("productImg" + i);
 					if (productImgFile != null) {
-						ImageHolder productImg = new ImageHolder(productImgFile.getName(),
+						ImageHolder productImg = new ImageHolder(productImgFile.getOriginalFilename(),
 								productImgFile.getInputStream());
 						productImgList.add(productImg);
 					} else {
@@ -106,7 +108,7 @@ public class ProductManagementController {
 			Shop shop = new Shop();
 			shop.setShopId(currentshop.getShopId());
 			product.setShop(shop);
-
+			System.out.println(thumbnail.getImageName());
 			ProductExecution pe = productService.addProduct(product, thumbnail, productImgList);
 			if (pe.getState() == ProductStateEnum.SUCCESS.getState()) {
 				modelMap.put("success", true);
