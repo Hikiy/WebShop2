@@ -8,6 +8,7 @@
 完成通过productId商品查询功能、商品更新功能、删除商品详情图功能的Dao层，并单元测试成功<br>
 完成通过productId商品更新功能(包括商品查询、删除图片、更新功能)的Service层，并单元测试成功<br>
 完成商品查询功能的Controller层，经过tomcat测试成功<br>
+完成商品修改功能的Controller层，还未测试<br>
 <br>
 
 **2018.11.14** <br>
