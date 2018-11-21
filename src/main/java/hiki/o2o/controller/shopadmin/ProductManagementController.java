@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
@@ -24,8 +25,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import hiki.o2o.dto.ImageHolder;
 import hiki.o2o.dto.ProductExecution;
 import hiki.o2o.entity.Product;
+import hiki.o2o.entity.ProductCategory;
 import hiki.o2o.entity.Shop;
 import hiki.o2o.enums.ProductStateEnum;
+import hiki.o2o.service.ProductCategoryService;
 import hiki.o2o.service.ProductService;
 import hiki.o2o.util.CodeUtil;
 import hiki.o2o.util.HttpServletRequestUtil;
@@ -39,10 +42,18 @@ import hiki.o2o.util.HttpServletRequestUtil;
 public class ProductManagementController {
 	@Autowired
 	ProductService productService;
+	
+	@Autowired
+	ProductCategoryService productCategoryService;
 
 	// 商品详情图的最大数量
 	private final int IMAGEMAXCOUNT = 6;
-
+	
+	/**
+	 * 添加商品
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value = "/addproduct", method = RequestMethod.POST)
 	@ResponseBody
 	private Map<String, Object> addProduct(HttpServletRequest request) {
@@ -121,6 +132,31 @@ public class ProductManagementController {
 			return modelMap;
 		}
 
+		return modelMap;
+	}
+	
+	/**
+	 * 通过productId获得商品信息
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/getproductbyid", method = RequestMethod.GET)
+	@ResponseBody
+	//GET和POST请求传的参数会自动转换赋值到@RequestParam 所注解的变量上
+	private Map<String, Object> getProductById(@RequestParam Long productId) {
+		Map<String,Object> modelMap=new HashMap<String,Object>();
+		if(productId>0){
+			//获取商品信息
+			Product product=productService.getProductById(productId);
+			//获取商品类别信息
+			List<ProductCategory> productCategoryList=productCategoryService.getProductCategoryList(product.getShop().getShopId());
+			modelMap.put("success", true);
+			modelMap.put("product", product);
+			modelMap.put("productCategoryList", productCategoryList);
+		}else{
+			modelMap.put("success", false);
+			modelMap.put("errMsg", "empty productId");
+		}
 		return modelMap;
 	}
 }
