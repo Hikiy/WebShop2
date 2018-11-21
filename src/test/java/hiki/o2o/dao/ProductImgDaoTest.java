@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,5 +47,17 @@ public class ProductImgDaoTest extends BaseTest {
 		int effectedNum = productImgDao.batchInsertProductImg(productImgList);
 		assertEquals(2,effectedNum);
 	}
-
+	
+	@Test
+	@Ignore
+	public void testBQueryProductImgList(){
+		
+	}
+	
+	@Test
+	public void testCDeleteProductImgByProductId()throws Exception{
+		long productId=1L;
+		int effectedNum=productImgDao.deleteProductImgByProductId(productId);
+		assertEquals(2,effectedNum);
+	}
 }

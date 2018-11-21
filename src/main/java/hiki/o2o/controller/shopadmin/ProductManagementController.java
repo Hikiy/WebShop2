@@ -105,9 +105,7 @@ public class ProductManagementController {
 		if (product != null && thumbnail != null && productImgList != null) {
 			// 获取session中的ShopId
 			Shop currentshop = (Shop) request.getSession().getAttribute("currentShop");
-			Shop shop = new Shop();
-			shop.setShopId(currentshop.getShopId());
-			product.setShop(shop);
+			product.setShop(currentshop);
 			System.out.println(thumbnail.getImageName());
 			ProductExecution pe = productService.addProduct(product, thumbnail, productImgList);
 			if (pe.getState() == ProductStateEnum.SUCCESS.getState()) {
