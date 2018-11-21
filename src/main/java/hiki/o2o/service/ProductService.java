@@ -18,12 +18,34 @@ import hiki.o2o.exception.ProductOperationException;
 public interface ProductService {
 	/**
 	 * 添加商品信息和图片处理
+	 * 
 	 * @param product
-	 * @param thumbnail	缩略图
-	 * @param productImgList	详情图
+	 * @param thumbnail
+	 *            缩略图
+	 * @param productImgList
+	 *            详情图
 	 * @return
 	 * @throws ProductOperationException
 	 */
 	ProductExecution addProduct(Product product, ImageHolder thumbnail, List<ImageHolder> productImgList)
+			throws ProductOperationException;
+
+	/**
+	 * 通过productId获得商品信息
+	 * 
+	 * @param productId
+	 * @return
+	 */
+	Product getProductById(long productId);
+	
+	/**
+	 * 修改商品信息
+	 * @param product
+	 * @param thumbnail
+	 * @param productImgList
+	 * @return
+	 * @throws ProductOperationException
+	 */
+	ProductExecution modifyProduct(Product product, ImageHolder thumbnail, List<ImageHolder> productImgList)
 			throws ProductOperationException;
 }

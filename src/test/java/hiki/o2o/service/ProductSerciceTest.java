@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,7 @@ public class ProductSerciceTest extends BaseTest {
 	private ProductService productService;
 
 	@Test
+	@Ignore
 	public void testAddProduct() throws ShopOperationException, ProductOperationException, FileNotFoundException {
 		Product product = new Product();
 		Shop shop = new Shop();
@@ -65,6 +67,37 @@ public class ProductSerciceTest extends BaseTest {
 		productImgList.add(new ImageHolder(productImg2.getName(), is2));
 		// 添加商品
 		ProductExecution pe = productService.addProduct(product, thumbnail, productImgList);
+		assertEquals(ProductStateEnum.SUCCESS.getState(), pe.getState());
+	}
+	
+	@Test
+	public void testModifyProduct() throws FileNotFoundException{
+		Product product = new Product();
+		Shop shop = new Shop();
+		shop.setShopId(2L);
+		ProductCategory pc = new ProductCategory();
+		pc.setProductCategoryId(1L);
+		product.setProductId(1L);
+		product.setShop(shop);
+		product.setProductCategory(pc);
+		product.setProductName("正式商品1");
+		product.setProductDesc("正式描述1");
+		product.setPriority(10);
+		product.setLastEditTime(new Date());
+		// 创建缩略图文件流
+		File thumbnailFile = new File("E:/java/WebShop/test/picture/zhangyuge.jpg");
+		InputStream is = new FileInputStream(thumbnailFile);
+		ImageHolder thumbnail = new ImageHolder(thumbnailFile.getName(), is);
+		// 创建两个商品详情图片添加到列表
+		File productImg1 = new File("E:/java/WebShop/test/picture/zhangyuge.jpg");
+		InputStream is1 = new FileInputStream(productImg1);
+		File productImg2 = new File("E:/java/WebShop/test/picture/human.jpg");
+		InputStream is2 = new FileInputStream(productImg2);
+		List<ImageHolder> productImgList = new ArrayList<ImageHolder>();
+		productImgList.add(new ImageHolder(productImg1.getName(), is1));
+		productImgList.add(new ImageHolder(productImg2.getName(), is2));
+		// 添加商品
+		ProductExecution pe = productService.modifyProduct(product, thumbnail, productImgList);
 		assertEquals(ProductStateEnum.SUCCESS.getState(), pe.getState());
 	}
 }
