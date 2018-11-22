@@ -21,6 +21,7 @@ import hiki.o2o.enums.ProductStateEnum;
 import hiki.o2o.exception.ProductOperationException;
 import hiki.o2o.service.ProductService;
 import hiki.o2o.util.ImageUtil;
+import hiki.o2o.util.PageCalculator;
 import hiki.o2o.util.PathUtil;
 
 /**
@@ -173,5 +174,19 @@ public class ProductServiceImpl implements ProductService {
 		}
 		//删除数据库中的数据
 		productImgDao.deleteProductImgByProductId(productId);
+	}
+	
+	//通过条件查询商品列表
+	@Override
+	public ProductExecution getProductList(Product productCondition, int pageIndex, int pageSize) {
+		//将页码转换为数据库的行号,然后进行条件查询
+		int rowIndex=PageCalculator.calculateRowIndex(pageIndex, pageSize);
+		List<Product> productList=productDao.queryProductList(productCondition, rowIndex, pageSize);
+		//获得查询总数
+		int count=productDao.queryProductCount(productCondition);
+		ProductExecution pe=new ProductExecution();
+		pe.setCount(count);
+		pe.setProductList(productList);
+		return pe;
 	}
 }

@@ -107,12 +107,20 @@ public class ProductDaoTest extends BaseTest {
 		productCondition3.setEnableStatus(1);
 		List<Product> productList3=productDao.queryProductList(productCondition3, 0, 9);
 		assertEquals(8,productList3.size());
+		//测试店铺id查询
 		Product productCondition4=new Product();
 		Shop shop=new Shop();
 		shop.setShopId(2L);
 		productCondition4.setShop(shop);
 		List<Product> productList4=productDao.queryProductList(productCondition4, 0, 9);
 		assertEquals(8,productList4.size());
+		//测试商品类别查询
+		Product productCondition5=new Product();
+		ProductCategory productCategory=new ProductCategory();
+		productCategory.setProductCategoryId(2L);
+		productCondition5.setProductCategory(productCategory);
+		List<Product> productList5=productDao.queryProductList(productCondition5, 0, 9);
+		assertEquals(2,productList5.size());
 	}
 
 	@Test

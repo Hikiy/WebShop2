@@ -48,4 +48,14 @@ public interface ProductService {
 	 */
 	ProductExecution modifyProduct(Product product, ImageHolder thumbnail, List<ImageHolder> productImgList)
 			throws ProductOperationException;
+	
+	
+	/**
+	 * 根据条件分页查询商品列表，条件：模糊商品名、状态、店铺ID、商品类别
+	 * @param productCondition
+	 * @param pageIndex
+	 * @param pageSize
+	 * @return
+	 */
+	ProductExecution getProductList(Product productCondition,int pageIndex,int pageSize);
 }
