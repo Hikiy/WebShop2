@@ -46,6 +46,13 @@ public interface ProductDao {
 			@Param("rowIndex")int rowIndex,@Param("pageSize")int pageSize);
 	
 	/**
+	 * 删除商品类别前，需要先将使用此类别的商品置为空
+	 * @param productCategoryId
+	 * @return
+	 */
+	int updateProductCategoryToNull(long productCategoryId);
+	
+	/**
 	 * 查询商品总数
 	 * @param productCondition
 	 * @return

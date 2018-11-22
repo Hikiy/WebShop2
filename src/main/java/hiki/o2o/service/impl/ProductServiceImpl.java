@@ -130,6 +130,7 @@ public class ProductServiceImpl implements ProductService {
 	// 3.删除该商品在tb_product_img中的全部记录
 	// 4.更新tb_product_img和tb_product
 	@Override
+	@Transactional
 	public ProductExecution modifyProduct(Product product, ImageHolder thumbnail, List<ImageHolder> productImgList)
 			throws ProductOperationException {
 		// 空值判断

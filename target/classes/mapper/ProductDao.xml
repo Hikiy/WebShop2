@@ -128,7 +128,8 @@
 			</if>
 			<!-- 这里也可以写成like '%${shopCondition.shopName}%' -->
 			<if test="productCondition.productName!=null">
-				and product_name like CONCAT('%',#{productCondition.productName},'%')
+				and product_name like
+				CONCAT('%',#{productCondition.productName},'%')
 			</if>
 			<if test="productCondition.enableStatus!=null">
 				and enable_status=#{productCondition.enableStatus}
@@ -153,11 +154,20 @@
 			</if>
 			<!-- 这里也可以写成like '%${shopCondition.shopName}%' -->
 			<if test="productCondition.productName!=null">
-				and product_name like CONCAT('%',#{productCondition.productName},'%')
+				and product_name like
+				CONCAT('%',#{productCondition.productName},'%')
 			</if>
 			<if test="productCondition.enableStatus!=null">
 				and enable_status=#{productCondition.enableStatus}
 			</if>
 		</where>
 	</select>
+	<update id="updateProductCategoryToNull" parameterType="Long">
+		UPDATE
+		tb_product
+		SET
+		product_category_id=null
+		WHERE
+		product_category_id=#{productCategoryId}
+	</update>
 </mapper>
