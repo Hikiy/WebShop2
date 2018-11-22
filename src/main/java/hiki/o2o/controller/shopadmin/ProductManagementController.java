@@ -236,10 +236,66 @@ public class ProductManagementController {
 				modelMap.put("success", false);
 				modelMap.put("errMsg", e.toString());
 			}
-		}else{
+		} else {
 			modelMap.put("success", false);
 			modelMap.put("errMsg", "请输入商品信息");
 		}
 		return modelMap;
+	}
+	
+	/**
+	 * 通过条件查询商品列表
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/getproductlistbyshop", method = RequestMethod.GET)
+	@ResponseBody
+	private Map<String, Object> getProductListByShop(HttpServletRequest request) {
+		Map<String, Object> modelMap = new HashMap<String, Object>();
+		// 获取前端的页码
+		int pageIndex = HttpServletRequestUtil.getInt(request, "pageIndex");
+		// 获取前端每页返回的最大数量
+		int pageSize = HttpServletRequestUtil.getInt(request, "pageSize");
+		Shop currentShop = (Shop) request.getSession().getAttribute("currentShop");
+		if (pageIndex > -1 && pageSize > -1 && currentShop != null && currentShop.getShopId() != null) {
+			long productCategoryId = HttpServletRequestUtil.getLong(request, "productCategoryId");
+			String productName = HttpServletRequestUtil.getString(request, "productName");
+			Product productCondition = compactProductCondition(currentShop.getShopId(), productCategoryId, productName);
+			ProductExecution pe=productService.getProductList(productCondition, pageIndex, pageSize);
+			modelMap.put("count", pe.getCount());
+			modelMap.put("productList", pe.getProductList());
+			modelMap.put("success", true);
+		} else {
+			modelMap.put("success", false);
+			modelMap.put("errMsg", "empty pageIndex or pageSize or shop");
+			return modelMap;
+		}
+		return modelMap;
+	}
+
+	/**
+	 * 整合商品查询条件
+	 * @param shopId
+	 * @param productCategoryId
+	 * @param productName
+	 * @return
+	 */
+	private Product compactProductCondition(Long shopId, long productCategoryId, String productName) {
+		Product productCondition=new Product();
+		//整合店铺ID
+		Shop shop=new Shop();
+		shop.setShopId(shopId);
+		productCondition.setShop(shop);
+		//整合商品类别
+		if(productCategoryId!=-1L){
+			ProductCategory productCategory=new ProductCategory();
+			productCategory.setProductCategoryId(productCategoryId);
+			productCondition.setProductCategory(productCategory);
+		}
+		//整合模糊商品名
+		if(productName!=null){
+			productCondition.setProductName(productName);
+		}
+		return productCondition;
 	}
 }
