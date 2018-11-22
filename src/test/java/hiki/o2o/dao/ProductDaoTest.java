@@ -88,8 +88,35 @@ public class ProductDaoTest extends BaseTest {
 		int effectedNum3 = productDao.insertProduct(product3);
 		assertEquals(1, effectedNum3);
 	}
+	
+	@Test
+	public void testBQueryProductList(){
+		Product productCondition=new Product();
+		//测试查询
+		List<Product> productList=productDao.queryProductList(productCondition, 0, 3);
+		assertEquals(3,productList.size());
+		//测试查询总数
+		int count=productDao.queryProductCount(productCondition);
+		assertEquals(8,count);
+		//测试名称模糊查询
+		productCondition.setProductName("测试");
+		List<Product> productList2=productDao.queryProductList(productCondition, 0, 7);
+		assertEquals(2,productList2.size());
+		//测试状态查询
+		Product productCondition3=new Product();
+		productCondition3.setEnableStatus(1);
+		List<Product> productList3=productDao.queryProductList(productCondition3, 0, 9);
+		assertEquals(8,productList3.size());
+		Product productCondition4=new Product();
+		Shop shop=new Shop();
+		shop.setShopId(2L);
+		productCondition4.setShop(shop);
+		List<Product> productList4=productDao.queryProductList(productCondition4, 0, 9);
+		assertEquals(8,productList4.size());
+	}
 
 	@Test
+	@Ignore
 	public void testCQueryProductByProductId() {
 		long productId = 1L;
 		// 添加两个商品详情图，模拟原有图片
@@ -118,6 +145,7 @@ public class ProductDaoTest extends BaseTest {
 	}
 
 	@Test
+	@Ignore
 	public void testDUpdateProduct() {
 		Product product = new Product();
 		ProductCategory productCategory = new ProductCategory();
