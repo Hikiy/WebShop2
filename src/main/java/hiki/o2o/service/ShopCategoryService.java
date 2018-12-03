@@ -12,5 +12,10 @@ import hiki.o2o.entity.ShopCategory;
  *
  */
 public interface ShopCategoryService {
+	/**
+	 * 根据条件查询店铺分类列表
+	 * @param shopCategoryCondition
+	 * @return
+	 */
 	public List<ShopCategory> getShopCategoryList(ShopCategory shopCategoryCondition);
 }
