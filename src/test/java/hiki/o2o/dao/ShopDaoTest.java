@@ -29,32 +29,15 @@ public class ShopDaoTest extends BaseTest {
 	@Test
 	public void testqueryShopListAndCount(){
 		Shop shopCondition=new Shop();
-		PersonInfo owner=new PersonInfo();
-		owner.setUserId(1L);
-		shopCondition.setOwner(owner);
-//		List<Shop> shopList=shopDao.queryShopList(shopCondition, 0, 3);
-//		int count=shopDao.queryShopCount(shopCondition);
-//		System.out.println("店铺列表的大小="+shopList.size());
-//		System.out.println("店铺总大小="+count);
-		//ShopCategory shopCategory=new ShopCategory();
-		//shopCategory.setShopCategoryId(1L);
-		//shopCondition.setShopCategory(shopCategory);
-		//shopList=shopDao.queryShopList(shopCondition, 0, 2);
-		//count=shopDao.queryShopCount(shopCondition);
-		//System.out.println("店铺列表的大小="+shopList.size());
-		///System.out.println("店铺总大小="+count);
-		//Shop shopCondition2=new Shop();
-		//shopCondition.setShopName("咖啡");
-		//shopCondition.setEnableStatus(1);
-		Area area=new Area();
-		area.setAreaId(1);
-		shopCondition.setArea(area);
-		String name="咖啡";
-		shopCondition.setShopName(name);
-		List<Shop> shopList2=shopDao.queryShopList(shopCondition, 0, 1);
-		int count2=shopDao.queryShopCount(shopCondition);
-		System.out.println("店铺列表2的大小="+shopList2.size());
-		System.out.println("店铺2总大小="+count2);
+		ShopCategory childCategory=new ShopCategory();
+		ShopCategory parentCategory=new ShopCategory();
+		parentCategory.setShopCategoryId(1L);
+		childCategory.setParent(parentCategory);
+		shopCondition.setShopCategory(childCategory);
+		List<Shop> shopList=shopDao.queryShopList(shopCondition, 0, 1);
+		int count=shopDao.queryShopCount(shopCondition);
+		System.out.println("店铺大小="+shopList.size());
+		System.out.println("店铺总大小="+count);
 	}
 
 	@Test
