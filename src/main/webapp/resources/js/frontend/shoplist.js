@@ -13,6 +13,11 @@ $(function() {
 	var pageNum = 1;
 	// 获取一级店铺分类
 	var parentId = getQueryString('parentId');
+	// 用于判断是二级类别还是一级类别
+	var ischild = false;
+	if (parentId) {
+		ischild = true;
+	}
 	var areaId = '';
 	var shopCategoryId = '';
 	var shopName = '';
@@ -98,12 +103,12 @@ $(function() {
 				var total = $('.list-div .card').length;
 				if (total >= maxItems) {
 					// 加载完毕，则注销无限滚动事件
-					//$.detachInfiniteScroll($('.infinite-scroll'));
+					// $.detachInfiniteScroll($('.infinite-scroll'));
 					// 删除加载提示符
-					//$('.infinite-scroll-preloader').remove();
-					//隐藏提示符
+					// $('.infinite-scroll-preloader').remove();
+					// 隐藏提示符
 					$('.infinite-scroll-preloader').hide();
-				}else{
+				} else {
 					$('.infinite-scroll-preloader').show();
 				}
 				// 页码+1
@@ -133,58 +138,57 @@ $(function() {
 			'click',
 			'.button',
 			function(e) {
-				if (parentId) {// 如果传递过来的是一个父类下的子类
-					shopCategoryId = e.target.dataset.categoryId;
-					// 选了别的店铺类别则清楚原本选择的店铺类别
-					if ($(e.target).hasClass('button-fill')) {
-						$(e.target).removeClass('button-fill');
-						shopCategoryId = '';
-					} else {
-						$(e.target).addClass('button-fill').siblings()
-								.removeClass('button-fill');
-					}
-					$('.list-div').empty();
-					pageNum = 1;
-					addItems(pageSize, pageNum);
-				} else {// 如果传递过来的父类为空，则按照父类查询
-					parentId = e.target.dataset.categoryId;
-					if ($(e.target).hasClass('button-fill')) {
-						$(e.target).removeClass('button-fill');
-						parentId = '';
-					} else {
-						$(e.target).addClass('button-fill').siblings()
-								.removeClass('button-fill');
-					}
-					// 查询条件变化所以清空原先的列表
-					$('.list-div').empty();
-					// 页码置回1
-					pageNum = 1;
-					addItems(pageSize, pageNum);
+				 if (ischild) {// 如果传递过来的是一个父类下的子类
+				 shopCategoryId = e.target.dataset.categoryId;
+				 // 选了别的店铺类别则清楚原本选择的店铺类别
+				 if ($(e.target).hasClass('button-fill')) {
+				 $(e.target).removeClass('button-fill');
+				 shopCategoryId = '';
+				 } else {
+				 $(e.target).addClass('button-fill').siblings()
+				 .removeClass('button-fill');
+				 }
+				 $('.list-div').empty();
+				 pageNum = 1;
+				 addItems(pageSize, pageNum);
+				 } else {// 如果传递过来的父类为空，则按照父类查询
+				parentId = e.target.dataset.categoryId;
+				if ($(e.target).hasClass('button-fill')) {
+					$(e.target).removeClass('button-fill');
 					parentId = '';
+				} else {
+					$(e.target).addClass('button-fill').siblings().removeClass(
+							'button-fill');
+				}
+				// 查询条件变化所以清空原先的列表
+				$('.list-div').empty();
+				// 页码置回1
+				pageNum = 1;
+				addItems(pageSize, pageNum);
 				}
 			});
-	
-	//搜索栏输入关键字改变，刷新页面重置页码
+
+	// 搜索栏输入关键字改变，刷新页面重置页码
 	$('#search').on('change', function(e) {
 		shopName = e.target.value;
 		$('.list-div').empty();
 		pageNum = 1;
 		addItems(pageSize, pageNum);
 	});
-	
-	//区域信息改变，刷新页面重置页码
-	$('#area-search').on('change', function() {
+
+	// 区域信息改变，刷新页面重置页码
+	$('#area-search').on('change', function(e) {
 		areaId = $('#area-search').val();
 		$('.list-div').empty();
 		pageNum = 1;
 		addItems(pageSize, pageNum);
 	});
-	
-	//侧边栏
+
+	// 侧边栏
 	$('#me').click(function() {
 		$.openPanel('#panel-left-demo');
 	});
-	
-	//初始化页面
+
+	// 初始化页面
 	$.init();
 });
