@@ -105,7 +105,7 @@ $(function() {
 						if (data.success) {
 							$.toast('提交成功');
 						} else {
-							$.toast('提交失败' + data.errMsg);
+							$.toast('提交失败,请检查验证码等信息');
 						}
 						$('#captcha_img').click();
 					}
