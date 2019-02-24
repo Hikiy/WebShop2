@@ -92,13 +92,19 @@ $(function() {
 				});
 				//将“卡片”（SUI Mobile中的名称）组合添加到组件中
 				$('.list-div').append(html);
-				//获取“卡片”总数，当与查询条件的总数一致啧停止加载
+				//获取“卡片”总数，当与查询条件的总数一致则停止加载
 				var total = $('.list-div .card').length;
 				if (total >= maxItems) {
+					/**这个注释的方法是因为会导致bug，使改变查询条件时，不再加载
 					// 加载完毕，则注销无限加载事件，以防不必要的加载
 					$.detachInfiniteScroll($('.infinite-scroll'));
 					// 删除加载提示符
 					$('.infinite-scroll-preloader').remove();
+					**/
+					//加载完毕，则隐藏加载提示符，以防不必要的加载
+					$('.infinite-scroll-preloader').hide();
+				}else{
+					$('.infinite-scroll-preloader').show();
 				}
 				//若不是，则页码+1，继续加载新的店铺
 				pageNum += 1;
@@ -147,7 +153,7 @@ $(function() {
 								+ productId;
 					});
 	//查询名字改变后，重置页码，清空商品列表，按照新条件查询
-	$('#search').on('input', function(e) {
+	$('#search').on('change', function(e) {
 		productName = e.target.value;
 		$('.list-div').empty();
 		pageNum = 1;
