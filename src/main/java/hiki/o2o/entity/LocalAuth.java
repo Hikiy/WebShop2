@@ -10,9 +10,19 @@ import java.util.Date;
  *
  */
 public class LocalAuth {
+	//主键
 	private Long localAuthId;
-	private String username;
-	private String psaaword;
+	//用户名
+	private String userName;
+	//密码
+	private String password;
+	private Long userId;
+	public Long getUserId() {
+		return userId;
+	}
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
 	private Date createTime;
 	private Date lastEditTime;
 	private PersonInfo personInfo;
@@ -22,17 +32,17 @@ public class LocalAuth {
 	public void setLocalAuthId(Long localAuthId) {
 		this.localAuthId = localAuthId;
 	}
-	public String getUsername() {
-		return username;
+	public String getUserName() {
+		return userName;
 	}
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
-	public String getPsaaword() {
-		return psaaword;
+	public String getPassword() {
+		return password;
 	}
-	public void setPsaaword(String psaaword) {
-		this.psaaword = psaaword;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	public Date getCreateTime() {
 		return createTime;

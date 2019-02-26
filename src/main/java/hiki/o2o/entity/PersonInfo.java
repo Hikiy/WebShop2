@@ -13,7 +13,7 @@ public class PersonInfo {
 	private Long userId;
 	private String name;
 	//头像地址
-	private String profilImg;
+	private String profileImg;
 	private String email;
 	private String gender;
 	//用户状态 ，是否被封禁。0位禁止，1可用
@@ -49,14 +49,14 @@ public class PersonInfo {
 	/**
 	 * @return profilImg
 	 */
-	public String getProfilImg() {
-		return profilImg;
+	public String getProfileImg() {
+		return profileImg;
 	}
 	/**
 	 * @param profilImg 瑕佽缃殑 profilImg
 	 */
-	public void setProfilImg(String profilImg) {
-		this.profilImg = profilImg;
+	public void setProfileImg(String profileImg) {
+		this.profileImg = profileImg;
 	}
 	/**
 	 * @return email
