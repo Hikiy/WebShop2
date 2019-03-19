@@ -5,7 +5,7 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
+//import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import hiki.o2o.dao.LocalAuthDao;
 import hiki.o2o.dao.PersonInfoDao;
@@ -44,8 +44,7 @@ public class LocalAuthServiceImpl implements LocalAuthService {
 
 	@Override
 	@Transactional
-	public LocalAuthExecution register(LocalAuth localAuth,
-			CommonsMultipartFile profileImg) throws RuntimeException {
+	public LocalAuthExecution register(LocalAuth localAuth) throws RuntimeException {
 		if (localAuth == null || localAuth.getPassword() == null
 				|| localAuth.getUserName() == null) {
 			return new LocalAuthExecution(LocalAuthStateEnum.NULL_AUTH_INFO);
@@ -56,7 +55,7 @@ public class LocalAuthServiceImpl implements LocalAuthService {
 			localAuth.setPassword(MD5.getMd5(localAuth.getPassword()));
 			if (localAuth.getPersonInfo() != null
 					&& localAuth.getPersonInfo().getUserId() == null) {
-				if (profileImg != null) {
+				//if (profileImg != null) {
 					localAuth.getPersonInfo().setCreateTime(new Date());
 					localAuth.getPersonInfo().setLastEditTime(new Date());
 					localAuth.getPersonInfo().setEnableStatus(1);
@@ -66,7 +65,7 @@ public class LocalAuthServiceImpl implements LocalAuthService {
 //						throw new RuntimeException("addUserProfileImg error: "
 //								+ e.getMessage());
 //					}
-				}
+				//}
 				try {
 					PersonInfo personInfo = localAuth.getPersonInfo();
 					int effectedNum = personInfoDao

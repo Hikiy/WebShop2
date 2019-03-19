@@ -1,6 +1,6 @@
 package hiki.o2o.service;
 
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
+//import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import hiki.o2o.dto.LocalAuthExecution;
 import hiki.o2o.entity.LocalAuth;
@@ -27,8 +27,7 @@ public interface LocalAuthService {
 	 * @return
 	 * @throws RuntimeException
 	 */
-	LocalAuthExecution register(LocalAuth localAuth,
-			CommonsMultipartFile profileImg) throws RuntimeException;
+	LocalAuthExecution register(LocalAuth localAuth) throws RuntimeException;
 
 
 	/**

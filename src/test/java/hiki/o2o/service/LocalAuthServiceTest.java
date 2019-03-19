@@ -10,7 +10,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
+//import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import hiki.o2o.BaseTest;
 import hiki.o2o.dto.LocalAuthExecution;
@@ -39,8 +39,8 @@ public class LocalAuthServiceTest extends BaseTest{
 		localAuth.setPersonInfo(personInfo);
 		localAuth.setUserName(username);
 		localAuth.setPassword(password);
-		CommonsMultipartFile profileImg=null;
-		LocalAuthExecution lae=localAuthService.register(localAuth, profileImg);
+		//CommonsMultipartFile profileImg=null;
+		LocalAuthExecution lae=localAuthService.register(localAuth);
 		assertEquals(LocalAuthStateEnum.SUCCESS.getState(),lae.getState());
 		localAuth=localAuthService.getLocalAuthByUserId(personInfo.getUserId());
 		System.out.println("用户名："+localAuth.getPersonInfo().getName());
