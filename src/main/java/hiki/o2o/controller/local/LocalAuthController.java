@@ -85,6 +85,7 @@ public class LocalAuthController {
 				modelMap.put("success", true);
 				PersonInfo user=localAuth.getPersonInfo();
 				request.getSession().setAttribute("user", user);
+				request.getSession().setMaxInactiveInterval(30*60);
 			}else{
 				modelMap.put("success", false);
 				modelMap.put("errorMsg", "用户名不存在或密码错误！");
