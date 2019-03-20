@@ -82,11 +82,18 @@ public class ShopManagementController {
 	private Map<String, Object> getShopList(HttpServletRequest request) {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 		// 模拟了用户信息
-		PersonInfo user = new PersonInfo();
-		user.setUserId(1L);
-		user.setName("test");
-		request.getSession().setAttribute("user", user);
-		user = (PersonInfo) request.getSession().getAttribute("user");
+//		PersonInfo user = new PersonInfo();
+//		user.setUserId(1L);
+//		user.setName("test");
+//		request.getSession().setAttribute("user", user);
+		PersonInfo user = (PersonInfo) request.getSession().getAttribute("user");
+		try{
+			user.getUserId();
+		}catch(Exception e){
+			modelMap.put("success", false);
+			modelMap.put("errMsg", "未登录！");
+			return modelMap;
+		}
 		try {
 			Shop shopCondition = new Shop();
 			shopCondition.setOwner(user);

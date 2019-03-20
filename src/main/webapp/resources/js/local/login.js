@@ -2,8 +2,9 @@
  * 
  */
 $(function() {
-	var registerurl = '/o2o/local/register';
+	var loginurl = '/o2o/local/login';
 	var frontendurl = '/o2o/frontend/index';
+	var registerurl = '/o2o/auth/register';
 	$('#submit').click(
 		function() {
 			var formData = new FormData();
@@ -14,13 +15,9 @@ $(function() {
 				alert('请输入验证码！');
 				return;
 			}
-			if($('#passwordconfirm').val()!=$('#password').val()){
-				alert('密码两次输入不正确！');
-				return;
-			}
 			formData.append('verifyCodeActual', verifyCodeActual);
 			$.ajax({
-				url : (registerurl),
+				url : (loginurl),
 				type : 'POST',
 				data : formData,
 				contentType : false,
@@ -28,15 +25,20 @@ $(function() {
 				cache : false,
 				success : function(data) {
 					if (data.success) {
-						$.toast('注册成功,返回首页');
+						$.toast('登录成功,返回首页');
 						setTimeout(function(){
 							window.location.href=frontendurl; 
 						},2000);
 					} else {
-						$.toast('注册失败'+data.errorMsg);
+						$.toast('登录失败'+data.errorMsg);
 					}
 					$('#captcha_img').click();
 				}
 			});
-		})
+		});
+	$('#register').click(
+		function() {
+			window.location.href=registerurl;
+		}
+	)
 })

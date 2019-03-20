@@ -1,4 +1,5 @@
 $(function() {
+	var loginurl = '/o2o/auth/login';
 	getlist();
 	function getlist(e) {
 		$.ajax({
@@ -9,6 +10,11 @@ $(function() {
 				if (data.success) {
 					handleList(data.shopList);
 					handleUser(data.user);
+				}else{
+					$.toast(data.errMsg);
+					setTimeout(function(){
+						window.location.href=loginurl; 
+					},1000);
 				}
 			}
 		});

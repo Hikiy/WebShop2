@@ -66,4 +66,46 @@ public class LocalAuthController {
 		}
 		return modelMap;
 	}
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@ResponseBody
+	private Map<String, Object> login(HttpServletRequest request) {
+		Map<String, Object> modelMap = new HashMap<String, Object>();
+		if (!CodeUtil.checkVerifyCode(request)) {
+			modelMap.put("success", false);
+			modelMap.put("errorMsg", "输入了错误的验证码");
+			return modelMap;
+		}
+		
+		String userName = HttpServletRequestUtil.getString(request, "username");
+		String password = HttpServletRequestUtil.getString(request, "password");
+		try{
+			LocalAuth localAuth=localAuthService.getLocalAuthByUserNameAndPwd(userName,password);
+			System.out.println(localAuth.getUserName());
+			if(localAuth.getUserName().equals(userName)){
+				modelMap.put("success", true);
+				PersonInfo user=localAuth.getPersonInfo();
+				request.getSession().setAttribute("user", user);
+			}else{
+				modelMap.put("success", false);
+				modelMap.put("errorMsg", "用户名不存在或密码错误！");
+			}
+		}catch(Exception e){
+			modelMap.put("success", false);
+			modelMap.put("errorMsg", "用户名不存在或密码错误！");
+		}
+		return modelMap;
+	}
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	@ResponseBody
+	private Map<String, Object> logout(HttpServletRequest request) {
+		Map<String, Object> modelMap = new HashMap<String, Object>();
+		try{
+			request.getSession().removeAttribute("user");
+			modelMap.put("success", true);
+		}catch(Exception e){
+			modelMap.put("success", false);
+			modelMap.put("errMsg", "未登录！");
+		}
+		return modelMap;
+	}
 }

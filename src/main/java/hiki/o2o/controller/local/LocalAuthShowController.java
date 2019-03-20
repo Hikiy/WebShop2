@@ -18,5 +18,12 @@ public class LocalAuthShowController {
 	public String register(){
 		return "local/register";
 	}
-	
+	@RequestMapping(value="/login")
+	public String login(){
+		return "local/login";
+	}
+	@RequestMapping(value="/logout")
+	public String logout(){
+		return "local/logout";
+	}
 }
