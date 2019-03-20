@@ -26,4 +26,8 @@ public class LocalAuthShowController {
 	public String logout(){
 		return "local/logout";
 	}
+	@RequestMapping(value="/resetpwd")
+	public String resetpwd(){
+		return "local/resetpwd";
+	}
 }

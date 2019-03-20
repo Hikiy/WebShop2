@@ -80,7 +80,6 @@ public class LocalAuthController {
 		String password = HttpServletRequestUtil.getString(request, "password");
 		try{
 			LocalAuth localAuth=localAuthService.getLocalAuthByUserNameAndPwd(userName,password);
-			System.out.println(localAuth.getUserName());
 			if(localAuth.getUserName().equals(userName)){
 				modelMap.put("success", true);
 				PersonInfo user=localAuth.getPersonInfo();
@@ -96,6 +95,7 @@ public class LocalAuthController {
 		}
 		return modelMap;
 	}
+	
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	@ResponseBody
 	private Map<String, Object> logout(HttpServletRequest request) {
@@ -106,6 +106,30 @@ public class LocalAuthController {
 		}catch(Exception e){
 			modelMap.put("success", false);
 			modelMap.put("errMsg", "未登录！");
+		}
+		return modelMap;
+	}
+	
+	@RequestMapping(value = "/resetpwd", method = RequestMethod.POST)
+	@ResponseBody
+	private Map<String, Object> resetpwd(HttpServletRequest request) {
+		Map<String, Object> modelMap = new HashMap<String, Object>();
+		if (!CodeUtil.checkVerifyCode(request)) {
+			modelMap.put("success", false);
+			modelMap.put("errMsg", "输入了错误的验证码");
+			return modelMap;
+		}
+		try{
+			String userName = HttpServletRequestUtil.getString(request, "username");
+			String password = HttpServletRequestUtil.getString(request, "password");
+			String newPassword = HttpServletRequestUtil.getString(request, "newpassword");
+			PersonInfo user = (PersonInfo) request.getSession().getAttribute("user");
+			Long userId=user.getUserId();
+			localAuthService.modifyLocalAuth(userId, userName, password, newPassword);
+			modelMap.put("success", true);
+		}catch(Exception e){
+			modelMap.put("success", false);
+			modelMap.put("errMsg", "请检查用户名、密码！");
 		}
 		return modelMap;
 	}

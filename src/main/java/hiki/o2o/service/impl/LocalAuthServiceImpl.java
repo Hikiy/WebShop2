@@ -105,11 +105,11 @@ public class LocalAuthServiceImpl implements LocalAuthService {
 						userName, MD5.getMd5(password),
 						MD5.getMd5(newPassword), new Date());
 				if (effectedNum <= 0) {
-					throw new RuntimeException("更新密码失败");
+					throw new RuntimeException("重置密码失败");
 				}
 				return new LocalAuthExecution(LocalAuthStateEnum.SUCCESS);
 			} catch (Exception e) {
-				throw new RuntimeException("更新密码失败:" + e.toString());
+				throw new RuntimeException("重置密码失败:" + e.toString());
 			}
 		} else {
 			return new LocalAuthExecution(LocalAuthStateEnum.NULL_AUTH_INFO);
